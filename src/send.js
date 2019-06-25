@@ -17,7 +17,13 @@ export default async function send({ gas, gasPrices = DEFAULT_GAS_PRICE, memo = 
   const signatureObject = createSignature(signature, sequence, accountNumber, publicKey)
   const signedTx = createSignedTransaction(stdTx, signatureObject)
   const body = createBroadcastBody(signedTx, `sync`)
-  const res = await fetch(`${cosmosRESTURL}/txs`, { method: `POST`, body })
+  const res = await fetch(`${cosmosRESTURL}/txs`, {
+      method: `POST`,
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body,
+  })
     .then(res => res.json())
     .then(assertOk)
 

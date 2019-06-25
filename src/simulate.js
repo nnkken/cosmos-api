@@ -24,7 +24,13 @@ export default async function simulate(
 
   const tx = createRESTPOSTObject(senderAddress, chainId, { sequence, accountNumber, memo }, msg)
 
-  const { gas_estimate } = await fetch(url, { method: `POST`, body: JSON.stringify(tx) }).then(res => res.json())
+  const { gas_estimate } = await fetch(url, {
+      method: `POST`,
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(tx),
+  }).then(res => res.json())
   return Math.round(gas_estimate * GAS_ADJUSTMENT)
 }
 
